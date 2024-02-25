@@ -2,13 +2,15 @@ package com.lgmrszd.lgm_pol_pg;
 
 import com.lgmrszd.lgm_pol_pg.blocks.magic_slab.MagicSlabBlock;
 import com.lgmrszd.lgm_pol_pg.blocks.magic_slab.MagicSlabBlockEntity;
+import eu.pb4.polymer.core.api.block.PolymerBlockUtils;
+import eu.pb4.polymer.core.api.item.PolymerBlockItem;
 import net.fabricmc.api.ModInitializer;
 
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.item.BlockItem;
+import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
@@ -38,6 +40,8 @@ public class LgmsPolymerPlayground implements ModInitializer {
 		LOGGER.info("Hello Fabric world!");
 
 		Registry.register(Registries.BLOCK, new Identifier(MOD_ID, "magic_slab_block"), MAGIC_SLAB_BLOCK);
-		Registry.register(Registries.ITEM, new Identifier(MOD_ID, "magic_slab_block"), new BlockItem(MAGIC_SLAB_BLOCK, new FabricItemSettings()));
+		Registry.register(Registries.ITEM, new Identifier(MOD_ID, "magic_slab_block"), new PolymerBlockItem(MAGIC_SLAB_BLOCK, new FabricItemSettings(), Items.SMOOTH_STONE_SLAB));
+
+		PolymerBlockUtils.registerBlockEntity(MAGIC_SLAB_BLOCK_ENTITY);
 	}
 }
