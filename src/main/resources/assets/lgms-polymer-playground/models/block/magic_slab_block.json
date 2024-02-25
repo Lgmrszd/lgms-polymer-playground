@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "lgms-polymer-playground:block/magic_slab_block_bottom",
+    "side": "lgms-polymer-playground:block/magic_slab_block_side",
+    "top": "lgms-polymer-playground:block/magic_slab_block_top"
+  }
+}

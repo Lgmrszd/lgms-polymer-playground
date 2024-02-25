@@ -1,0 +1,44 @@
+{
+	"schemaVersion": 1,
+	"id": "lgms-polymer-playground",
+	"version": "${version}",
+	"name": "Lgm's Polymer Playground",
+	"description": "This is an example description! Tell everyone what your mod is about!",
+	"authors": [
+		"Me!"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/lgms-polymer-playground/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.lgmrszd.lgm_pol_pg.LgmsPolymerPlayground"
+		],
+		"client": [
+			"com.lgmrszd.lgm_pol_pg.LgmsPolymerPlaygroundClient"
+		],
+		"fabric-datagen": [
+			"com.lgmrszd.lgm_pol_pg.LgmsPolymerPlaygroundDataGenerator"
+		]
+	},
+	"mixins": [
+		"lgms-polymer-playground.mixins.json",
+		{
+			"config": "lgms-polymer-playground.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.15.7",
+		"minecraft": "~1.20.4",
+		"java": ">=17",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
