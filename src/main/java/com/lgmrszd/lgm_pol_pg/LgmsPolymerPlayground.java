@@ -4,12 +4,14 @@ import com.lgmrszd.lgm_pol_pg.blocks.magic_slab.MagicSlabBlock;
 import com.lgmrszd.lgm_pol_pg.blocks.magic_slab.MagicSlabBlockEntity;
 import com.lgmrszd.lgm_pol_pg.blocks.magic_slab.MagicSlabBlockItem;
 import com.lgmrszd.lgm_pol_pg.client_tracker.ClientTracker;
-import eu.pb4.polymer.core.api.block.PolymerBlockUtils;
+import com.lgmrszd.lgm_pol_pg.polymer.unsafe.MyPolymerInit;
+//import eu.pb4.polymer.core.api.block.PolymerBlockUtils;
 import net.fabricmc.api.ModInitializer;
 
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -44,7 +46,9 @@ public class LgmsPolymerPlayground implements ModInitializer {
 		Registry.register(Registries.BLOCK, new Identifier(MOD_ID, "magic_slab_block"), MAGIC_SLAB_BLOCK);
 		Registry.register(Registries.ITEM, new Identifier(MOD_ID, "magic_slab_block"), new MagicSlabBlockItem(MAGIC_SLAB_BLOCK, new FabricItemSettings()));
 
-		PolymerBlockUtils.registerBlockEntity(MAGIC_SLAB_BLOCK_ENTITY);
+		boolean polymerLoaded = FabricLoader.getInstance().isModLoaded("polymer-core");
+		if (polymerLoaded) MyPolymerInit.init();
+
 
 		ClientTracker.init();
 		ModCommands.init();
