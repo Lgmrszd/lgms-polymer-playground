@@ -2,15 +2,15 @@ package com.lgmrszd.lgm_pol_pg;
 
 import com.lgmrszd.lgm_pol_pg.blocks.magic_slab.MagicSlabBlock;
 import com.lgmrszd.lgm_pol_pg.blocks.magic_slab.MagicSlabBlockEntity;
+import com.lgmrszd.lgm_pol_pg.blocks.magic_slab.MagicSlabBlockItem;
+import com.lgmrszd.lgm_pol_pg.client_tracker.ClientTracker;
 import eu.pb4.polymer.core.api.block.PolymerBlockUtils;
-import eu.pb4.polymer.core.api.item.PolymerBlockItem;
 import net.fabricmc.api.ModInitializer;
 
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
@@ -23,6 +23,8 @@ public class LgmsPolymerPlayground implements ModInitializer {
 	// That way, it's clear which mod wrote info, warnings, and errors.
     public static final Logger LOGGER = LoggerFactory.getLogger("lgms-polymer-playground");
 	public static final String MOD_ID = "lgms-polymer-playground";
+
+//	public static final Identifier NOTIFY_SERVER = new Identifier(MOD_ID, "notify_server");
 
 	public static final MagicSlabBlock MAGIC_SLAB_BLOCK = new MagicSlabBlock(FabricBlockSettings.create().strength(4.0f));
 	public static final BlockEntityType<MagicSlabBlockEntity> MAGIC_SLAB_BLOCK_ENTITY = Registry.register(
@@ -40,8 +42,11 @@ public class LgmsPolymerPlayground implements ModInitializer {
 		LOGGER.info("Hello Fabric world!");
 
 		Registry.register(Registries.BLOCK, new Identifier(MOD_ID, "magic_slab_block"), MAGIC_SLAB_BLOCK);
-		Registry.register(Registries.ITEM, new Identifier(MOD_ID, "magic_slab_block"), new PolymerBlockItem(MAGIC_SLAB_BLOCK, new FabricItemSettings(), Items.SMOOTH_STONE_SLAB));
+		Registry.register(Registries.ITEM, new Identifier(MOD_ID, "magic_slab_block"), new MagicSlabBlockItem(MAGIC_SLAB_BLOCK, new FabricItemSettings()));
 
 		PolymerBlockUtils.registerBlockEntity(MAGIC_SLAB_BLOCK_ENTITY);
+
+		ClientTracker.init();
+		ModCommands.init();
 	}
 }

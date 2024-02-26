@@ -1,15 +1,19 @@
 package com.lgmrszd.lgm_pol_pg.blocks.magic_slab;
 
+import com.lgmrszd.lgm_pol_pg.client_tracker.ClientTracker;
 import eu.pb4.polymer.core.api.block.PolymerBlock;
+import eu.pb4.polymer.core.api.utils.PolymerClientDecoded;
+import eu.pb4.polymer.core.api.utils.PolymerKeepModel;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.enums.SlabType;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import org.jetbrains.annotations.Nullable;
 
-public class MagicSlabBlock extends Block implements BlockEntityProvider, PolymerBlock {
+public class MagicSlabBlock extends Block implements BlockEntityProvider, PolymerBlock, PolymerKeepModel, PolymerClientDecoded {
 
     private static final VoxelShape SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 8.0, 16.0);
     public MagicSlabBlock(Settings settings) {
@@ -34,7 +38,25 @@ public class MagicSlabBlock extends Block implements BlockEntityProvider, Polyme
     }
 
     @Override
+    public Block getPolymerBlock(BlockState state, ServerPlayerEntity player) {
+        boolean sendOriginal = (player != null) && ClientTracker.INSTANCE.hasClient(player);
+        if (sendOriginal) {
+            return this;
+        }
+        return getPolymerBlock(state);
+    }
+
+    @Override
     public BlockState getPolymerBlockState(BlockState state) {
         return getPolymerBlock(state).getDefaultState().with(SlabBlock.TYPE, SlabType.BOTTOM);
+    }
+
+    @Override
+    public BlockState getPolymerBlockState(BlockState state, ServerPlayerEntity player) {
+        boolean sendOriginal = (player != null) && ClientTracker.INSTANCE.hasClient(player);
+        if (sendOriginal) {
+            return this.getDefaultState();
+        }
+        return getPolymerBlockState(state);
     }
 }
