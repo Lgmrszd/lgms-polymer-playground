@@ -1,5 +1,6 @@
 package com.lgmrszd.lgm_pol_pg.client_tracker;
 
+import com.lgmrszd.lgm_pol_pg.LgmsPolymerPlayground;
 import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerConfigurationConnectionEvents;
@@ -19,9 +20,9 @@ import static com.lgmrszd.lgm_pol_pg.LgmsPolymerPlayground.MOD_ID;
 
 public class ClientTracker {
 
-	public static final Identifier NOTIFY_SERVER = new Identifier(MOD_ID, "notify_server");
+//	public static final Identifier NOTIFY_SERVER = new Identifier(MOD_ID, "notify_server");
     public static final Identifier HELLO = new Identifier(MOD_ID, "hello");
-    public static final int CURRENT_VERSION = 1;
+//    public static final int CURRENT_VERSION = 1;
 
 //    private static final WeakHashMap<ServerPlayerEntity, Boolean> hasPlayerClient = new WeakHashMap<>();
     private static final Map<UUID, Boolean> playerHasClient = new Object2BooleanOpenHashMap<>();
@@ -53,14 +54,15 @@ public class ClientTracker {
     }
 
     private static void onConfigured(ServerConfigurationNetworkHandler handler, MinecraftServer server) {
-        int needOnClient = 0;
+        boolean needOnClient = !LgmsPolymerPlayground.isPolymerLoaded();
         UUID uuid = handler.getDebugProfile().getId();
         if (ServerConfigurationNetworking.canSend(handler, HELLO)) {
             server.execute(() -> {
                 INSTANCE.setPlayerClient(uuid, true);
             });
         } else {
-            if (needOnClient - 1 == 0) handler.disconnect(Text.literal("Sorry mod required on client!!"));
+            if (needOnClient) handler.disconnect(Text.literal("Sorry, mod required on client!!\n" +
+                    "Alternatively, install Polymer on the server"));
             else {
                 server.execute(() -> {
                     INSTANCE.setPlayerClient(uuid, false);

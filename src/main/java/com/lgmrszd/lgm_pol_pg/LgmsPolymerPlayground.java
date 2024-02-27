@@ -13,6 +13,7 @@ import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
@@ -25,6 +26,12 @@ public class LgmsPolymerPlayground implements ModInitializer {
 	// That way, it's clear which mod wrote info, warnings, and errors.
     public static final Logger LOGGER = LoggerFactory.getLogger("lgms-polymer-playground");
 	public static final String MOD_ID = "lgms-polymer-playground";
+
+	private static boolean polymerLoaded = false;
+
+	public static boolean isPolymerLoaded() {
+		return polymerLoaded;
+	}
 
 //	public static final Identifier NOTIFY_SERVER = new Identifier(MOD_ID, "notify_server");
 
@@ -45,8 +52,9 @@ public class LgmsPolymerPlayground implements ModInitializer {
 
 		Registry.register(Registries.BLOCK, new Identifier(MOD_ID, "magic_slab_block"), MAGIC_SLAB_BLOCK);
 		Registry.register(Registries.ITEM, new Identifier(MOD_ID, "magic_slab_block"), new MagicSlabBlockItem(MAGIC_SLAB_BLOCK, new FabricItemSettings()));
+		Registry.register(Registries.ITEM, new Identifier(MOD_ID, "debugger"), new Item(new FabricItemSettings()));
 
-		boolean polymerLoaded = FabricLoader.getInstance().isModLoaded("polymer-core");
+		polymerLoaded = FabricLoader.getInstance().isModLoaded("polymer-core");
 		if (polymerLoaded) MyPolymerInit.init();
 
 
