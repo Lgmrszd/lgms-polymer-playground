@@ -3,6 +3,7 @@ package com.lgmrszd.lgm_pol_pg.mixin.polymer;
 import com.lgmrszd.lgm_pol_pg.blocks.magic_slab.MagicSlabBlock;
 import com.lgmrszd.lgm_pol_pg.polymer.safe.MyPolymerBlock;
 import eu.pb4.polymer.core.api.block.PolymerBlock;
+import eu.pb4.polymer.core.api.utils.PolymerClientDecoded;
 import eu.pb4.polymer.core.api.utils.PolymerKeepModel;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -10,7 +11,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(MagicSlabBlock.class)
-public class PolymerBlockInterfaceMixin implements PolymerBlock, PolymerKeepModel {
+public class PolymerBlockInterfaceMixin implements PolymerBlock, PolymerKeepModel, PolymerClientDecoded {
     @Override
     public Block getPolymerBlock(BlockState state) {
         return ((MyPolymerBlock)(Object)this).my$getPolymerBlock(state);

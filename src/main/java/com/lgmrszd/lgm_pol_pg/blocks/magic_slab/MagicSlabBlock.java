@@ -2,16 +2,18 @@ package com.lgmrszd.lgm_pol_pg.blocks.magic_slab;
 
 import com.lgmrszd.lgm_pol_pg.client_tracker.ClientTracker;
 import com.lgmrszd.lgm_pol_pg.polymer.safe.MyPolymerBlock;
-//import eu.pb4.polymer.core.api.block.PolymerBlock;
-//import eu.pb4.polymer.core.api.utils.PolymerClientDecoded;
-//import eu.pb4.polymer.core.api.utils.PolymerKeepModel;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.enums.SlabType;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 public class MagicSlabBlock extends Block implements BlockEntityProvider, MyPolymerBlock {
@@ -25,6 +27,14 @@ public class MagicSlabBlock extends Block implements BlockEntityProvider, MyPoly
     @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         return SHAPE;
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+        if (world.isClient()) return ActionResult.SUCCESS;
+        if (world.getBlockEntity(pos) instanceof MagicSlabBlockEntity blockEntity) blockEntity.onUse(player, hand);
+        return ActionResult.SUCCESS;
     }
 
     @Nullable
